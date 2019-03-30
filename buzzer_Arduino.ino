@@ -4,9 +4,9 @@ int ledRed;
 int ledPause;
 int buzzer;
 int button;
-int buttonHIGH_or_LOW
-int risultatoRiflessiLed
-int risultatoRiflessiBuzzer;
+int buttonHIGHorLOW;
+int resultReflexLed;
+int resultReflexBuzzer;
  
 
 void setup() {
@@ -14,7 +14,7 @@ void setup() {
   ledRed = 7;
   ledPause = 8;
   buzzer = 9;
-  button  10;
+  button = 10;
   pinMode(ledGreen, OUTPUT);
   pinMode(ledRed, OUTPUT);
   pinMode(ledPause, OUTPUT);
@@ -24,25 +24,49 @@ void setup() {
   
 
 }
-int TryReflex(String testo, int ledBuzzer)
+int TryReflex(String text, int ledBuzzer)
 {
   delay(random(1000,5000));
   digitalWrite(ledBuzzer, HIGH);
   int InizioProva = millis();
-  buttonHIGH_o_LOW = digitalRead(button);
-  bool premuto = false;
-  while(!premuto) 
+  buttonHIGHorLOW = digitalRead(button);
+  bool pressed = false;
+  while(!pressed) 
   {
-   if(buttonHIGH_or_LOW == HIGH)
+   if(buttonHIGHorLOW == HIGH)
    {
-    premuto = true;
+    pressed = true;
    }
   }
   digitalWrite(ledBuzzer, LOW);
-  int TempoFineProva = mills();
-  int TempoFinale =
+  int FineProva = 0;
+  int FinalTempo = FineProva - InizioProva;
+  Serial.println(text + String(FinalTempo));
+  return FinalTempo;
+}
   
 void loop() {
-  
-
+  buttonHIGHorLOW = digitalRead(button);
+  bool pressed = false;
+  while(!pressed)
+      {
+      if(buttonHIGHorLOW == HIGH)
+        {
+        pressed == true;
+        }
+  }
+  resultReflexLed = TryReflex("The time passed when the last led lighted was: ms", ledPause);
+  resultReflexBuzzer = TryReflex("The time passed when the last buzzer sound was: ms", buzzer);
+  if(resultReflexLed < 400 && resultReflexBuzzer < 400) 
+    {
+    digitalWrite(ledGreen, HIGH);
+    }
+    else
+    {
+    digitalWrite(ledRed, HIGH);
+    }
+    delay(3000);
+    digitalWrite(ledGreen, LOW);
+    digitalWrite(ledRed, LOW);
+    
 }
